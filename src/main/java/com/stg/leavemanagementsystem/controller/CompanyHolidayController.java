@@ -9,18 +9,20 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/holidays")
+@CrossOrigin(origins = "http://localhost:4200")
 public class CompanyHolidayController {
 
     @Autowired
     private CompanyHolidayService holidayService;
 
-    @PostMapping
+    @PostMapping("/createHoliday")
     public CompanyHoliday addHoliday(@RequestBody CompanyHoliday holiday) {
         return holidayService.addHoliday(holiday);
     }
 
-    @GetMapping
+    @GetMapping("/showHolidays")
     public List<CompanyHoliday> getAllHolidays() {
+
         return holidayService.getAllHolidays();
     }
 }

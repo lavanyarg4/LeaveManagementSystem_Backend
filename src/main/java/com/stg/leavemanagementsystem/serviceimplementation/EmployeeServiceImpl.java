@@ -1,6 +1,7 @@
 package com.stg.leavemanagementsystem.serviceimplementation;
 
 import com.stg.leavemanagementsystem.dtoentity.EmployeeDto;
+import com.stg.leavemanagementsystem.dtoentity.LoginResponse;
 import com.stg.leavemanagementsystem.entity.Address;
 import com.stg.leavemanagementsystem.entity.Employee;
 import com.stg.leavemanagementsystem.repository.EmployeeRepository;
@@ -23,6 +24,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         Address address = new Address();
         employee1.setFirstName(employee.getFirstName());
         employee1.setLastName(employee.getLastName());
+        employee1.setUserName(employee.getUserName());
+        employee1.setPassword(employee.getPassword());
         employee1.setEmail(employee.getEmail());
         employee1.setPhone(employee.getPhone());
         employee1.setDateOfJoin(employee.getDateOfJoin());
@@ -32,14 +35,24 @@ public class EmployeeServiceImpl implements EmployeeService {
         address.setState(employee.getAddress().getState());
         address.setCountry(employee.getAddress().getCountry());
         address.setZip(employee.getAddress().getZip());
-
-
         employee1.setAddress(address);
 
 
         return employeeRepository.save(employee1);
     }
 
+
+    public LoginResponse login(String username, String password) {
+        Employee employee = employeeRepository.findByUserNameAndPassword(username, password);
+
+        if (employee != null) {
+            // return successful response with role
+            return new LoginResponse("Success", employee.getDesignation().name());
+        } else {
+            // invalid credentials
+            return null;
+        }
+    }
     @Override
     public Employee updateEmployee(Integer id, EmployeeDto employee) {
         Employee existingEmployee = employeeRepository.findById(id).orElseThrow(() -> new RuntimeException("Employee not found"));

@@ -17,6 +17,8 @@ public class LeaveRequestServiceImpl implements LeaveRequestService {
     @Autowired
     private LeaveRequestRepository leaveRequestRepository;
 
+
+
     @Autowired
     private LeaveBalanceService leaveBalanceService;
 
@@ -25,6 +27,8 @@ public class LeaveRequestServiceImpl implements LeaveRequestService {
         leaveRequest.setStatus(LeaveStatus.SUBMITTED);
         return leaveRequestRepository.save(leaveRequest);
     }
+
+
 
     @Override
     public LeaveRequest updateLeaveRequestStatus(Integer id, LeaveStatus status) {
